@@ -1,4 +1,4 @@
-server.log("Say Hello: " + http.agenturl() );
+server.log("Say: " + http.agenturl() );
 
 const html= @"<!DOCTYPE html>
 <html lang=""en"">

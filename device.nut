@@ -1,4 +1,4 @@
-// configure the imp (best practice)
+// squirrel
 imp.configure("getInfo setPins", [], []);
 mypin <- hardware.pin1;
 
