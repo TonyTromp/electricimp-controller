@@ -15,5 +15,6 @@ git remote add origin https://github.com/edgecrush3r/electricimp-controller.git
 
 <h3>Sync Git</h3>
 git add README.md agent.nut device.nut 
+git commit -m "Refactor to simplify" -a
 git push -u origin master
 
