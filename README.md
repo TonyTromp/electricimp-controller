@@ -15,6 +15,6 @@ git remote add origin https://github.com/edgecrush3r/electricimp-controller.git
 
 <h3>Commit to Git</h3>
 #git add README.md agent.nut device.nut 
-<br/>ggit commit -m "updated bla" -a
+<br/>git commit -m "..update.." -a
 <br/>git push -u origin master
 
