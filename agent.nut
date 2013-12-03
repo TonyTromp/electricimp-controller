@@ -1,4 +1,4 @@
-server.log("Say Hello: " + http.agenturl() + "?name=Timmy");
+server.log("Agent-URL: " + http.agenturl());
 
 const html= @"<!DOCTYPE html>
 <html lang=""en"">
@@ -15,6 +15,7 @@ pinconfig = [
      {""name"":""switch-a"",""on"":""a1"", ""off"":""a""}
     ,{""name"":""switch-b"",""on"":""b1"", ""off"":""b""}
     ];
+    
 function UpdateSwitch() {
     var hardware = new Array();
     for (i=0;i<pinconfig.length;i++) {
@@ -136,6 +137,21 @@ Changes are effective immediately using asynchronous (AJAX) callbacks to the Age
 </div>
 </div>
 </p>
+
+<div class=row>
+<div class=""small-2 columns"">
+<img src=""http://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fagent.electricimp.com%2Fq2v01tPC6wPH&#38;size=125x125&#38;prov=goqrme"" alt=""QR Code generator"" title="""" />
+</div>
+<div class=""small-10 columns"">
+<h6>Use the qcode for direct access to this page with your mobile or tablet. </h6>
+<small>
+<b>Note:</b> you can also invoke json commands to directly control pin1 and pin2. 
+Simply use the following URL: http://&lt;agent-url&gt;?cmd=set&pin=1 to set pin1 HIGH, or pin1=0 to set pin1 LOW.
+</small>
+</div>
+</div>
+
+
 </div>
 </section>
 <script src=http://cdn.jsdelivr.net/foundation/5.0.2/js/jquery.js></script>
