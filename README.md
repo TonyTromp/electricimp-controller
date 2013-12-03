@@ -1,3 +1,5 @@
+<img src="https://raw.github.com/edgecrush3r/electricimp-controller/master/screenshot.png" />
+
 Create a new repository on the command line
 
 touch README.md
