@@ -1,6 +1,9 @@
 <img src="https://raw.github.com/edgecrush3r/electricimp-controller/master/screenshot.png" />
 
 <hr/>
+<h3>0. Quick interface Demo</h3>
+<br/>http://jsfiddle.net/YRKVg/
+
 
 <h3>1. Getting the files from the repository:</h3>
 cd &lt;folder&gt;
