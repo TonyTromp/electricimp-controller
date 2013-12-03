@@ -1,4 +1,4 @@
-server.log("Say: " + http.agenturl() );
+server.log("Say Hello: " + http.agenturl() + "?name=Timmy");
 
 const html= @"<!DOCTYPE html>
 <html lang=""en"">
@@ -9,9 +9,11 @@ const html= @"<!DOCTYPE html>
 <link rel=stylesheet href=""http://cdn.jsdelivr.net/foundation/5.0.2/css/normalize.css"">
 <link rel=stylesheet href=""http://cdn.jsdelivr.net/foundation/5.0.2/css/foundation.min.css"">
 <script language=""javascript"">
+var debug=false;
+
 pinconfig = [
-     {""name"":""switch-a"",""on"":""a1""}
-    ,{""name"":""switch-b"",""on"":""b1""}
+     {""name"":""switch-a"",""on"":""a1"", ""off"":""a""}
+    ,{""name"":""switch-b"",""on"":""b1"", ""off"":""b""}
     ];
 function UpdateSwitch() {
     var hardware = new Array();
@@ -20,6 +22,7 @@ function UpdateSwitch() {
     }
     return {""hardware"": {""pin"": hardware}};
 }
+
 function postBackJSON(cmd, jsonobject) {    
         $.ajax({
               type: ""POST"",                                
@@ -33,8 +36,18 @@ function postBackJSON(cmd, jsonobject) {
           }) .done(function( data ) {
                 if (data!=null) {
                     if (data.callback=='getInfo') {
-                        alert('GetInfo::Pin1: '+data.hardware.pin[0]);
-                        alert('GetInfo::Pin2: '+data.hardware.pin[1]);
+                        if (debug) {
+                            alert('GetInfo::Pin1: '+data.hardware.pin[0]);
+                            alert('GetInfo::Pin2: '+data.hardware.pin[1]);
+                        }
+                        for (i=0;i<pinconfig.length;i++) {
+                            // Only update toggle if not clicked manualy
+                            var state = (data.hardware.pin[i]>0) ? true : false;
+                            if (document.getElementById(pinconfig[i].on).checked!=state ) {
+                                document.getElementById(pinconfig[i].on).checked = state;
+                                document.getElementById(pinconfig[i].off).checked = !state;
+                            }
+                        }
                     }
                 }
 
@@ -54,7 +67,7 @@ function postBackJSON(cmd, jsonobject) {
 <li class=has-dropdown>
 <a href=#>Projects</a>
 <ul class=dropdown>
-<li><a href=""Javascript:postBackJSON('get')"">To be done</a></li>
+<li><a href=""Javascript:postBackJSON('get')"">To do !</a></li>
 </ul>
 </li>
 <li class=active><a href=#>Configurator</a></li>
@@ -129,6 +142,8 @@ Changes are effective immediately using asynchronous (AJAX) callbacks to the Age
 <script src=http://cdn.jsdelivr.net/foundation/5.0.2/js/foundation.min.js></script>
 <script>
  $(document).foundation();
+ // update
+ postBackJSON('get');
 </script>
 </body>
 </html>";
@@ -148,7 +163,13 @@ function requestHandler(request, response) {
         });
         switch (request.query["cmd"]) {
             case "set":
-                device.send("setPins", http.jsondecode(request.body));                
+                // manual setting pin1
+                // http://agent.electricimp.com/q2v01tPC6wPH?cmd=set&pin1=1
+                if ("pin1" in request.query) {
+                    device.send("setPins", {"hardware": {"pin":[ request.query.pin1.tointeger() ]}});
+                } else {
+                    device.send("setPins", http.jsondecode(request.body));
+                }
                 break;
             case "get":
                  device.send("getInfo", request.query["cmd"]);
@@ -169,7 +190,6 @@ function requestHandler(request, response) {
 
 // register the HTTP handler
 http.onrequest(requestHandler);
-
  
 device.onconnect(function() {
     server.log("Device connected to Agent");
@@ -178,4 +198,3 @@ device.onconnect(function() {
 device.ondisconnect(function() {
     server.log("Device disconnected from Agent");
 });
-
