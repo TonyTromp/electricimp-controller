@@ -12,4 +12,4 @@ touch README.md
 <h3>Push an existing repository from the command line</h3>
 git remote add origin https://github.com/edgecrush3r/electricimp-controller.git
 <br/>git push -u origin master
-
+...
