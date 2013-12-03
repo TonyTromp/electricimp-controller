@@ -53,3 +53,4 @@ function getInfo(params) {
 // register a handler for "led" messages from the agent
 agent.on("getInfo", getInfo);
 agent.on("setPins", setPins);
+
